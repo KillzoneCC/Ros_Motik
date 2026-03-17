@@ -1,0 +1,5 @@
+string file_path
+bool loop
+---
+bool ok
+string message

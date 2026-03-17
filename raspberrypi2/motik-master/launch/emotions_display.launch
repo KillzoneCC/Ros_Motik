@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+  Запуск вывода эмоций на OLED (I2C 0x3D) через motik_node.
+  Дисплей должен быть свободен: не запускайте oled_mouth и oled_display.
+-->
+<launch>
+  <arg name="default_emotion" default="neutral" doc="Эмоция по умолчанию до первых сообщений в /emotions"/>
+  <arg name="animate" default="false" doc="true = авто-цикл по списку; false = ручной режим по топику /emotions"/>
+  <arg name="animation_interval_sec" default="2.0" doc="Секунд на одну эмоцию в режиме анимации"/>
+  <node name="motik_node" pkg="motik" type="motik_node.py" output="screen">
+    <param name="default_emotion" value="$(arg default_emotion)"/>
+    <param name="oscillogram_display" value="false"/>
+    <param name="animate" value="$(arg animate)"/>
+    <param name="animation_interval_sec" value="$(arg animation_interval_sec)"/>
+  </node>
+</launch>

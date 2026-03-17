@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+  Запуск только топиков эмоций: /emotions и /emotions_display, вывод на OLED (I2C 0x3D).
+  Осциллограмма отключена.
+
+  Команда:
+    roslaunch motik emotions_topics.launch
+
+  С анимацией по кругу:
+    roslaunch motik emotions_topics.launch animate:=true
+-->
+<launch>
+  <arg name="default_emotion" default="neutral"/>
+  <arg name="animate" default="false"/>
+
+  <node name="motik_node" pkg="motik" type="motik_node.py" output="screen">
+    <param name="default_emotion" value="$(arg default_emotion)"/>
+    <param name="oscillogram_display" value="false"/>
+    <param name="animate" value="$(arg animate)"/>
+  </node>
+</launch>

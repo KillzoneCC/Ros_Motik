@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+  Цепочка: нода 1 читает звук с микрофона (device:=plughw:3,0), нода 2 рисует осциллограмму для ноды 3,
+  нода 3 отдаёт уровень для анимации рта. По умолчанию микрофон на карте 3.
+  Карта 2: roslaunch test audio_oscillogram_full_usb_mic.launch device:=plughw:2,0
+-->
+<launch>
+  <arg name="device" default="plughw:3,0" doc="ALSA-устройство записи (микрофон): plughw:3,0 = карта 3. См. arecord -l"/>
+  <arg name="mouth_sync_hz" default="30" doc="Частота обновления рта (Гц)"/>
+  <param name="/mouth_sync_hz" value="$(arg mouth_sync_hz)"/>
+  <!-- Нода 1: захват с микрофона (device) → /audio/oscillogram_level -->
+  <include file="$(find test)/launch/audio_oscillogram_capture.launch">
+    <arg name="source" value="alsa"/>
+    <arg name="device" value="$(arg device)"/>
+  </include>
+  <!-- Нода 2: осциллограмма для ноды 3 → /audio/oscillogram_level_for_mouth -->
+  <include file="$(find test)/launch/oscillogram_plot.launch">
+    <arg name="mouth_sync_hz" value="$(arg mouth_sync_hz)"/>
+  </include>
+  <!-- Нода 3: сглаживание и уровень для анимации рта → /audio/mouth_open_level -->
+  <include file="$(find test)/launch/mouth_oscillogram_sync.launch"/>
+</launch>

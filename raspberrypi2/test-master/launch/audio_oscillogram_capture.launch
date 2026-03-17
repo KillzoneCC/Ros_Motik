@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+  По умолчанию source:=pulse_monitor — осциллограмма с того, что реально играет в колонки (VLC, браузер, VNC).
+  source:=alsa — захват с USB-микрофона (ALSA). Устройство: arecord -l → card N, device 0 → plughw:N,0.
+  Типичные USB: plughw:2,0 = "USB Audio Device", plughw:3,0 = "Redragon Gaming Headset".
+  Готовый запуск с микрофоном: roslaunch test audio_oscillogram_full_usb_mic.launch
+-->
+<launch>
+  <arg name="source" default="pulse_monitor" doc="pulse_monitor = то, что играет в колонки. alsa = USB-микрофон (arecord)"/>
+  <arg name="device" default="plughw:3,0" doc="ALSA-устройство при source:=alsa: plughw:3,0 = карта 3 (микрофон), plughw:2,0 = карта 2. См. arecord -l"/>
+  <node name="audio_oscillogram_capture_node" pkg="test" type="audio_oscillogram_capture_node.py" output="screen">
+    <param name="source" value="$(arg source)"/>
+    <param name="device" value="$(arg device)"/>
+    <param name="rate" value="16000"/>
+    <param name="chunk_size" value="1024"/>
+  </node>
+</launch>

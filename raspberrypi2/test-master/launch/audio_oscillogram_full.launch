@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+  Три ноды: захват уровня звука → осциллограмма/уровень для рта → сглаживание → /audio/mouth_open_level.
+  По умолчанию source:=pulse_monitor: осциллограмма с того, что играет в колонки (VLC, VNC, браузер).
+  Рот синхронизируется со звуком в реальном времени. На роботе без микрофона (только динамик) — воспроизведение
+  должно идти через PulseAudio, тогда первая нода считывает этот же поток и цепочка рисует осциллограмму.
+  source:=alsa — захват с микрофона, по умолчанию device plughw:3,0 (карта 3).
+-->
+<launch>
+  <arg name="source" default="pulse_monitor" doc="pulse_monitor = то, что играет (VNC/VLC). alsa = микрофон"/>
+  <arg name="device" default="plughw:3,0" doc="ALSA-устройство при source:=alsa (микрофон). Карта 3 по умолчанию. См. arecord -l"/>
+  <arg name="mouth_sync_hz" default="30" doc="Частота обновления рта (Гц); должна совпадать с нодой рта"/>
+  <param name="/mouth_sync_hz" value="$(arg mouth_sync_hz)"/>
+  <include file="$(find test)/launch/audio_oscillogram_capture.launch">
+    <arg name="source" value="$(arg source)"/>
+    <arg name="device" value="$(arg device)"/>
+  </include>
+  <include file="$(find test)/launch/oscillogram_plot.launch">
+    <arg name="mouth_sync_hz" value="$(arg mouth_sync_hz)"/>
+  </include>
+  <include file="$(find test)/launch/mouth_oscillogram_sync.launch"/>
+</launch>

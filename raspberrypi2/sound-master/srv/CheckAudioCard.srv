@@ -1,0 +1,8 @@
+string playback_device   # например 'plughw:2,0' или пусто, чтобы пропустить проверку вывода
+string capture_device    # например 'plughw:2,0' или пусто, чтобы пропустить проверку микрофона
+bool   test_playback     # true = проверить наличие playback‑устройства (aplay -l)
+bool   test_capture      # true = проверить наличие capture‑устройства (arecord -l)
+---
+bool   ok                # true, если все запрошенные проверки прошли
+string message           # человеко‑читаемое описание результата
+

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+  Захват звука: непосредственно с выхода на динамики (Analog Stereo Output) или с микрофона.
+  По умолчанию — монитор PulseAudio для Analog Stereo (то, что идёт в колонки).
+  Публикует /audio/level (Float32 0..1) для осциллограммы в motik_node.
+-->
+<launch>
+  <arg name="source" default="pulse_monitor" doc="pulse_monitor = с выхода на динамики (Analog Stereo), alsa = микрофон"/>
+  <arg name="pulse_source" default="" doc="Имя источника PulseAudio (пусто = авто-поиск Analog Stereo monitor). Список: pactl list sources short"/>
+  <arg name="device" default="plughw:2,0" doc="Устройство ALSA при source:=alsa (arecord -l)"/>
+  <node name="sound_node" pkg="sound" type="sound_node.py" output="screen">
+    <param name="source" value="$(arg source)"/>
+    <param name="pulse_source" value="$(arg pulse_source)"/>
+    <param name="device" value="$(arg device)"/>
+  </node>
+</launch>
