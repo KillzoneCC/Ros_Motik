@@ -1,0 +1,7 @@
+{
+  "extraPaths": [
+    "/opt/ros/noetic/lib/python3/dist-packages",
+    "/home/ubuntu/ros_ws/devel/lib/python3/dist-packages",
+    "/home/ubuntu/ros_ws/install/lib/python3/dist-packages"
+  ]
+}

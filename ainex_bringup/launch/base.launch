@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="oled_mouth" default="true" doc="Рот с анимацией: звук + анимация синхронно. Остановите oled_display.service"/>
+
+    <!--板载传感器-->
+    <!-- Датчик расстояния VL53L0X отключен - не используется -->
+    <!-- <include file="$(find ainex_sdk)/launch/sensor_node.launch" /> -->
+
+    <!--步态控制节点-->
+    <include file="$(find ainex_kinematics)/launch/ainex_controller.launch"/>
+
+    <!--imu过滤-->
+    <!-- IMU и MAG (магнитометр) остаются активными -->
+    <include file="$(find ainex_peripherals)/launch/imu.launch"/>
+
+    <!-- Рот с анимацией: звук через топик/сервис, анимация синхронно со звуком -->
+    <include if="$(arg oled_mouth)" file="$(find ainex_bringup)/launch/oled_mouth.launch"/>
+
+</launch>
