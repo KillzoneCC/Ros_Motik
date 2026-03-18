@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <include file="$(find test)/launch/audio_oscillogram_capture.launch"/>
-  <include file="$(find test)/launch/oscillogram_plot.launch"/>
-</launch>

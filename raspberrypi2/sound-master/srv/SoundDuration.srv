@@ -1,5 +1,0 @@
-string file_path
----
-float64 duration_sec
-bool ok
-string message
